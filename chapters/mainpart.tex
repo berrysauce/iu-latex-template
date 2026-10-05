@@ -1,22 +1,70 @@
-\section{Main Part}
+%% ==========================================================================
+%% Hauptteil der Bachelorarbeit
+%% ==========================================================================
+
+\section{Hauptteil}
+\label{sec:hauptteil}
 
 \lipsum[1]
 
-\subsection{Titel 1}
+\subsection{Theoretische Grundlagen}
+\label{subsec:theorie}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat \parencite[1]{nussbaum}.
+Wissenschaftliche Arbeiten erfordern eine fundierte Auseinandersetzung mit dem aktuellen Forschungsstand. Nach \textcite{blinowski_monolithic_2022} lassen sich verschiedene Architekturansätze bezüglich ihrer Performanz und Skalierbarkeit differenziert evaluieren. Auch grundlegende methodische Ansätze können über direkte und indirekte Zitate eingebunden werden \parencite[S.~42]{nussbaum}.
 
+\subsubsection{Konzepte und Begriffsabgrenzung}
+\label{subsubsec:konzepte}
 
-\subsection{Titel 2}
+Gemäß den IU-Richtlinien können Arbeiten in maximal drei Gliederungsstufen unterteilt werden. Hierbei erfolgt die Formatierung der Überschriften der 3.~Stufe in 11\,Pt. fett. 
 
-In Figure \ref*{fig:logo_iu} in Section \ref*{pos:logo_iu}, the logo of \ac{iu} is displayed:
+\lipsum[2]
 
-\begin{figure}[ht!]
-    \label{pos:logo_iu}
-    \includegraphics[scale=0.35]{logos/iu_Logo_EN.jpg}
-    \caption[Logo of \acs{iu}]{Logo of \ac{iu}}{Source: https://iu.de}
+\subsection{Methodik und empirische Untersuchung}
+\label{subsec:methodik}
+
+Die empirische Erhebung erfolgte anhand leitfadengestützter Experteninterviews. Der vollständige Erhebungsbogen ist im Anhang dokumentiert (siehe Anhang~A).
+
+In Abbildung~\ref{fig:logo_iu} ist beispielhaft das Logo der \ac{iu} dargestellt. Abbildungen und Tabellen sollten stets im Fließtext referenziert und mit einer eindeutigen Quellenangabe in Schriftgröße 10\,Pt. versehen werden.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{logos/iu_Logo_EN.jpg}
+    \caption[Logo der \acs{iu}]{Logo der \ac{iu}}
     \label{fig:logo_iu}
+    \quelle{In Anlehnung an \url{https://www.iu.de}}
 \end{figure}
 
+Zur Veranschaulichung von strukturierten Daten dient Tabelle~\ref{tab:beispiel}. Laut IU-Richtlinien ist ein Tabellenverzeichnis ab drei verwendeten Tabellen verpflichtend.
 
+\begin{table}[htbp]
+    \centering
+    \caption{Übersicht exemplarischer Bewertungskriterien}
+    \label{tab:beispiel}
+    \vspace{4pt}
+    \begin{tabular}{llr}
+        \hline
+        \textbf{Kriterium} & \textbf{Beschreibung} & \textbf{Gewichtung} \\
+        \hline
+        Inhaltliche Tiefe & Systematische Bearbeitung der Forschungsfrage & 40\,\% \\
+        Wissenschaftlichkeit & Literaturarbeit nach APA-Richtlinien & 30\,\% \\
+        Struktur \& Formalia & Einhaltung des IU-Leitfadens und Layouts & 30\,\% \\
+        \hline
+    \end{tabular}
+    \quelle{Eigene Darstellung}
+\end{table}
+
+\subsection{Quellcode-Darstellung}
+\label{subsec:code}
+
+Quellcode kann übersichtlich über das \texttt{listings}-Paket eingebunden werden:
+
+\begin{lstlisting}[language=Java, caption={Beispielhafte Java-Methode}, label={lst:java_beispiel}]
+public class Application {
+    public static void main(String[] args) {
+        System.out.println("Willkommen an der IU!");
+    }
+}
+\end{lstlisting}
+
+\lipsum[7]
 \lipsum[7-8]

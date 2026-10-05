@@ -1,46 +1,50 @@
-%% Title Page
-\def\usesf{}
-\let\usesf\sffamily % Uncomment this line for the default TeX font
-
-\newsavebox{\Tutor}
-\savebox{\Tutor}{<Name of the Tutor>}
-
-
-\setlength{\unitlength}{1pt}
+%% ==========================================================================
+%% Titelseite für eine Abschlussarbeit (Bachelorarbeit / Masterarbeit)
+%% gemäß den offiziellen IU-Richtlinien (Stand: 01.10.2025)
+%% ==========================================================================
 
 \begin{titlepage}
 \begin{center}
-\includegraphics[width=.32\paperwidth]{logos/iu_Logo_EN.jpg}
 
-\hbox{}
+% IU Logo (oben zentriert)
+\includegraphics[width=0.35\textwidth]{logos/iu_Logo_EN.jpg}
+
+\vspace{1.5cm}
+
+% Prüfungsform (laut Richtlinien z. B. Bachelorarbeit, Masterarbeit)
+{\Large\bfseries Bachelorarbeit\par}
+
+\vspace{0.8cm}
+
+% Vollständiger Name der Hochschule (laut Richtlinien verpflichtend als Text)
+{\large IU Internationale Hochschule\par}
+\vspace{0.3cm}
+{\large Studiengang: <Vollständige Bezeichnung des Studiengangs, z.\,B. Informatik (B.Sc.)>\par}
+
+\vspace{1.8cm}
+
+% Titel der Arbeit (fett, hervorgehoben)
+{\LARGE\bfseries <Titel der Bachelorarbeit>\par}
+
+\vspace{0.5cm}
+
+% Optionaler Untertitel der Arbeit
+{\large\textit{<Optionaler Untertitel der Bachelorarbeit>}\par}
+
 \vfill
-{\usesf}
-{\huge\bfseries My Case Study \par}
-\vskip 1.8cm
-Case Study\\[2mm]
-\vskip 1cm
 
-{\large\bfseries Markus Haug (<Student ID>)\\}
-% Neu: Anschrift hinzugefügt entsprechend der IU Muster-Titelseite
-<Musterstraße 50>\\
-<12345 Musterstadt>\\
-\vskip 1.2cm
-Studiengang: Business Informatics (B.Sc.)\\
-% in the Module\\
-ABCDF01 - Course Code\\
-\today % Abgabedatum
-\vskip 3cm
-\begin{tabular}{p{3cm}l}
-Tutor: & \usebox{\Tutor} \\
+% Angaben zur studierenden Person und zur Betreuung
+% (Hinweis: Bei Abschlussarbeiten entfällt laut Richtlinien der Kursname/Kurs-Code)
+\begin{tabular}{p{5.5cm}p{8.5cm}}
+\textbf{Name der studierenden Person:} & <Vorname Nachname> \\
+\textbf{Matrikelnummer:} & <123456> \\[0.4cm]
+\textbf{Erstprüfer/in / Betreuung:} & <Prof. Dr. Vorname Nachname> \\
+\textbf{Zweitprüfer/in (optional):} & <Titel Vorname Nachname> \\[0.4cm]
+\textbf{Abgabedatum:} & \today \\
 \end{tabular}
-\vfill
+
+\vspace{1.2cm}
+
 \end{center}
-
 \end{titlepage}
-%% End of Title Page
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "thesis"
 %%% End:

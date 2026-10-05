@@ -1,179 +1,294 @@
-% Template created by Markus Haug <mh@haugmarkus.com>
-% Credits: Markus Haug and the template contributors.
-% Feel free to share and modify this template, but please give credit where it's due.
-
 % !TEX TS-program = LuaLaTeX
 % !TEX encoding = UTF-8 Unicode
 
-\documentclass[11pt, a4paper, oneside, english]{article}
+%% ==========================================================================
+%% Vorlage für eine Bachelorarbeit an der IU Internationalen Hochschule
+%% Konform mit den offiziellen Richtlinien (Stand: 01.10.2025)
+%% ==========================================================================
 
+\documentclass[11pt, a4paper, oneside, ngerman]{article}
 
-%%
-%% Packages & Formatting
-%%
-\usepackage[english]{babel} % English language settings
-\usepackage[hidelinks]{hyperref} % Hyperlinks without borders
-\usepackage{setspace} % Spacing between paragraphs
-\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry} % Page margins
-\setstretch{1.5} % 1.5 line spacing
-\usepackage{lipsum}  % Dummy text
-\usepackage{titlesec} % define size for section headings
-\usepackage[nohyperlinks, printonlyused]{acronym} % Acronyms
-\usepackage[utf8]{inputenc} % Correct display of special characters
-\usepackage[T1]{fontenc} % enable hyphenation for languages with accented characters
+%% --------------------------------------------------------------------------
+%% Sprach- und Texteinstellungen
+%% --------------------------------------------------------------------------
+\usepackage[ngerman]{babel}                 % Deutsche Trennmuster und Begriffe
+\usepackage[autostyle=true, german=quotes]{csquotes} % Korrekte deutsche Anführungszeichen
 
-%% Fonts and Sizes
+%% --------------------------------------------------------------------------
+%% Schriftarten & Typografie (LuaLaTeX / fontspec)
+%% --------------------------------------------------------------------------
 \usepackage{fontspec}
-\setmainfont{Arial} % Main font Arial (requires lualatex or xelatex)
-\titleformat{\section}{\normalfont\fontsize{12pt}{1.5}\bfseries}{\thesection}{1em}{} % Section headings 1pt larger
-\titleformat{\subsection}{\normalfont\fontsize{12pt}{1.5}\bfseries}{\thesubsection}{1em}{} % Subsection headings 1pt larger
-\titleformat{\subsubsection}{\normalfont\fontsize{12pt}{1.5}\bfseries}{\thesubsubsection}{1em}{} % Subsubsection headings 1pt larger
-\def\UrlFont{\rm} % Print URLs not in Typewriter Font
-\renewcommand{\footnotesize}{\fontsize{10pt}{1.5pt}\selectfont}
+\usepackage{microtype}                      % Randausgleich und optimierter Zeilenumbruch
 
-% Prevent automatic paragraph indentation
-\usepackage{changepage}
-\setlength{\parindent}{0pt}
-% 6pt spacing only between paragraphs
-\setlength{\parskip}{6pt}{}
-
-% Blank page without page number, next page right
-\newcommand{\blankpage}{
- \clearpage{\pagestyle{empty}\cleardoublepage}
+% Schriftart Arial gemäß IU-Leitfaden (mit Ausweichschriftarten für Linux/CI)
+\IfFontExistsTF{Arial}{
+    \setmainfont{Arial}
+}{
+    \IfFontExistsTF{Liberation Sans}{
+        \setmainfont{Liberation Sans}
+    }{
+        \setmainfont{TeX Gyre Heros}
+    }
 }
 
-% Include graphics
+%% --------------------------------------------------------------------------
+%% Seitenränder & Layout
+%% --------------------------------------------------------------------------
+% IU-Richtlinie: Randbreiten betragen exakt 2,00 cm für alle Ränder
+\usepackage[
+    left=2.0cm,
+    right=2.0cm,
+    top=2.0cm,
+    bottom=2.0cm,
+    headsep=0.8cm,
+    footskip=1.0cm
+]{geometry}
+
+% Zeilenabstand: 1,5-zeilig im Fließtext (IU-Vorgabe)
+\usepackage{setspace}
+\setstretch{1.5}
+
+% Textabsätze: 6 Pt. Abstand nach Absatz, kein Erstzeileneinzug (IU-Vorgabe)
+\usepackage[skip=6pt]{parskip}
+
+% Fußnoten: 10 Pt. im Blocksatz (IU-Vorgabe)
+\renewcommand{\footnotesize}{\fontsize{10pt}{13pt}\selectfont}
+
+%% --------------------------------------------------------------------------
+%% Überschriftenformatierung (Exakt gemäß IU-Tabelle 1 & Anhang B)
+%% --------------------------------------------------------------------------
+% 1. Ebene: 16 Pt. fett, linksbündig | Abstand: 12 Pt. vor, 12 Pt. nach
+% 2. Ebene: 14 Pt. fett, linksbündig | Abstand: 12 Pt. vor, 6 Pt. nach
+% 3. Ebene: 11 Pt. fett, linksbündig | Abstand: 12 Pt. vor, 6 Pt. nach
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\fontsize{16pt}{20pt}\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{12pt}{12pt}
+
+\titleformat{\subsection}{\normalfont\fontsize{14pt}{18pt}\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+\titleformat{\subsubsection}{\normalfont\fontsize{11pt}{15pt}\bfseries}{\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
+
+%% --------------------------------------------------------------------------
+%% Inhaltsverzeichnis (Formatierung gemäß IU-Richtlinien)
+%% --------------------------------------------------------------------------
+% Nur Überschriften der 1. Ebene fett, weitere Ebenen normal
+% Überschriften und Verzeichnisse linksbündig, durchgehende Punktlinie
+\makeatletter
+\renewcommand*\l@section[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{0.8em \@plus\p@}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\normalfont\leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill\nobreak\hb@xt@\@pnumwidth{\hss \bfseries #2}\par
+    \endgroup
+  \fi}
+\makeatother
+
+%% --------------------------------------------------------------------------
+%% Kopf- und Fußzeilen (Seitennummerierung zentriert am Seitenende)
+%% --------------------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{\thepage}                            % Zentrierte Seitenzahl am Seitenende
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \cfoot{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+%% --------------------------------------------------------------------------
+%% Grafiken, Tabellen & Quellenangaben
+%% --------------------------------------------------------------------------
 \usepackage{graphicx}
-% center images and tables
+
+% Gleitumgebungen standardmäßig zentrieren
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
 
+% Einheitliche Quellenangabe unter Abbildungen und Tabellen (10 Pt. gemäß IU-Richtlinien)
+\newcommand{\quelle}[1]{%
+    \vspace{4pt}%
+    \par
+    \begingroup
+    \footnotesize
+    \noindent Quelle: #1\par
+    \endgroup
+}
 
-%% PDF Metadata
+%% --------------------------------------------------------------------------
+%% Hyperlinks & PDF-Metadaten
+%% --------------------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}                             % URLs in Fließtext-Schriftart
+
 \hypersetup{
- pdfauthor={Your Name},
- pdftitle={My Title}, %% Title of the PDF file
-  pdfsubject={Case Study - IU LaTeX Template},
- pdfkeywords={},
- pdfcreator={lualatex},
- pdfproducer={lualatex - Template by Markus Haug},
+    pdfauthor={<Vorname Nachname>},
+    pdftitle={<Titel der Bachelorarbeit>},
+    pdfsubject={Bachelorarbeit -- IU Internationale Hochschule},
+    pdfkeywords={IU, Internationale Hochschule, Bachelorarbeit},
+    pdfcreator={LuaLaTeX},
+    pdfproducer={LuaLaTeX}
 }
 
-%%
-%% Bibliography & Settings
-%%
-\usepackage[babel]{csquotes}
-\usepackage[backend=biber, style=apa, pagetracker, apamaxprtauth=20 ]{biblatex}
+%% --------------------------------------------------------------------------
+%% Hilfspakete
+%% --------------------------------------------------------------------------
+\usepackage{lipsum}
+\usepackage[nohyperlinks, printonlyused]{acronym}
 
-%%
-%% Source Code Setup
-%%
+%% --------------------------------------------------------------------------
+%% Quellcode-Formatierung (listings)
+%% --------------------------------------------------------------------------
 \usepackage{listings}
-\usepackage{color}
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
+\usepackage{xcolor}
 
-\lstset{frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=3
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+\lstset{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    columns=flexible,
+    numbers=none,
+    tabsize=2,
+    frame=tb
 }
 
+%% --------------------------------------------------------------------------
+%% Literaturverzeichnis (BibLaTeX nach APA 7th Edition)
+%% --------------------------------------------------------------------------
+\usepackage[
+    backend=biber,
+    style=apa,
+    pagetracker,
+    apamaxprtauth=20
+]{biblatex}
 
-% Remove Comma after second to last author and ampersand
+% Komma vor dem letzten Autor bei deutschem 'und' entfernen (APA-Konvention im Deutschen)
 \makeatletter
 \renewcommand*{\apablx@ifrevnameappcomma}{\@secondoftwo}
 \makeatother
 
 \DefineBibliographyExtras{ngerman}{%
-  \renewcommand*{\finalandcomma}{}%
+    \renewcommand*{\finalandcomma}{}%
 }
 
+\addbibresource{references.bib}
 
-%% Include Bibliography
-\addbibresource{references.bib} % your bib file
-
-
-%% ++++++++++++++++++++++++++++++++++++++++++
-%% Document
-%% ++++++++++++++++++++++++++++++++++++++++++
+%% ==========================================================================
+%% DOKUMENTENSTRUKTUR GEMÄSS IU-RICHTLINIEN
+%% ==========================================================================
 \begin{document}
 
-\pagenumbering{Roman} % Uppercase Roman numerals
-\include{pages/cover} % Cover page
+% --------------------------------------------------------------------------
+% 1. Titelblatt (Zählt als Seite I, Nummerierung wird nicht gedruckt)
+% --------------------------------------------------------------------------
+\hypersetup{pageanchor=false}
+\pagenumbering{Roman}
+\include{pages/cover}
+\hypersetup{pageanchor=true}
 
-\newpage
-%% ++++++++++++++++++++++++++++++++++++++++++
-%% Abstract (Pflicht laut IU Richtlinien)
-%% ++++++++++++++++++++++++++++++++++++++++++
+% --------------------------------------------------------------------------
+% Vorspann: Römische Paginierung beginnt auf Seite II
+% --------------------------------------------------------------------------
+\setcounter{page}{2}
+
+% 2. Danksagung (freiwillig bei Abschlussarbeiten; bei Bedarf einkommentieren)
+% \input{pages/acknowledgements}
+% \newpage
+
+% 3. Gender-Disclaimer (optional gemäß Anhang A; bei Bedarf einkommentieren)
+% \input{pages/gender_disclaimer}
+% \newpage
+
+% 4. Abstract (Pflicht bei Abschlussarbeiten laut Thesis-Handbuch)
 \phantomsection
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
-\lipsum[1] % TODO: Replace with your actual abstract
+\noindent
+\lipsum[1] % TODO: Hier den tatsächlichen Abstract einfügen
 
 \newpage
-%% ++++++++++++++++++++++++++++++++++++++++++
-%% Tables of Contents
-%% ++++++++++++++++++++++++++++++++++++++++++
-\stepcounter{page}
-\setcounter{tocdepth}{3}
-\tableofcontents % Table of contents
 
-\blankpage
+% 5. Inhaltsverzeichnis (erscheint nicht als Eintrag im Inhaltsverzeichnis)
+\tableofcontents
+\newpage
+
+% 6. Abbildungsverzeichnis (Pflicht ab 3 Abbildungen)
 \phantomsection
-\addcontentsline{toc}{section}{List of Figures}
-\listoffigures % List of Figures
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+\newpage
 
-
-% Tabellenverzeichnis aktiviert (Pflicht ab 3 Tabellen)
-\blankpage
+% 7. Tabellenverzeichnis (Pflicht ab 3 Tabellen)
 \phantomsection
-\addcontentsline{toc}{section}{List of Tables}
-\listoftables % List of Tables
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+\newpage
 
-\blankpage
+% 8. Abkürzungsverzeichnis
 \phantomsection
-\section*{Acronyms}
-\addcontentsline{toc}{section}{Acronyms}
-
-\begin{acronym}
-\acro{iu}[IU]{IU International University}
+\section*{Abkürzungsverzeichnis}
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+\begin{acronym}[IU]
+    \acro{iu}[IU]{IU Internationale Hochschule}
 \end{acronym}
 
-%% ++++++++++++++++++++++++++++++++++++++++++
-%% Main Part
-%% ++++++++++++++++++++++++++++++++++++++++++
-\blankpage
+\newpage
+
+% --------------------------------------------------------------------------
+% 9. Hauptteil (Textteil: Arabische Paginierung beginnend bei Seite 1)
+% --------------------------------------------------------------------------
 \pagenumbering{arabic}
-\input{chapters/introduction} % Introduction
-\input{chapters/mainpart}  % Main Part
-\input{chapters/conclusion}  % Conclusion
-\pagebreak
-%% ++++++++++++++++++++++++++++++++++++++++++
-% References
-%% ++++++++++++++++++++++++++++++++++++++++++
-\blankpage
 
-\phantomsection
-% set bibliography name
-\renewcommand{\bibname}{References}
-\addcontentsline{toc}{section}{\bibname}
+\input{chapters/introduction}   % Kapitel 1: Einleitung
+\newpage
 
-\begin{flushleft}
-\printbibliography[title=\bibname]
-\end{flushleft}
+\input{chapters/mainpart}       % Kapitel 2: Hauptteil
+\newpage
 
+\input{chapters/conclusion}     % Kapitel 3: Fazit und Ausblick
+\newpage
+
+% --------------------------------------------------------------------------
+% 10. Literaturverzeichnis (fortlaufende arabische Seitennummerierung)
+% --------------------------------------------------------------------------
+\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]
+
+% --------------------------------------------------------------------------
+% 11. Anhang mit Anhangsverzeichnis (fortlaufende arabische Seitennummerierung)
+% --------------------------------------------------------------------------
+\newpage
+\input{pages/appendix}
+
+% --------------------------------------------------------------------------
+% 12. Ehrenwörtliche Erklärung (Pflichtbestandteil an der IU)
+% --------------------------------------------------------------------------
+\newpage
+\input{pages/declaration}
+
+\end{document}
 \end{document}
