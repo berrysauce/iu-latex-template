@@ -2,6 +2,9 @@
 % Credits: Markus Haug and the template contributors.
 % Feel free to share and modify this template, but please give credit where it's due.
 
+% !TEX TS-program = LuaLaTeX
+% !TEX encoding = UTF-8 Unicode
+
 \documentclass[11pt, a4paper, oneside, english]{article}
 
 
@@ -48,7 +51,6 @@
 
 
 %% PDF Metadata
-% TODO: Update this!
 \hypersetup{
  pdfauthor={Your Name},
  pdftitle={My Title}, %% Title of the PDF file
@@ -91,8 +93,7 @@
 }
 
 
-% TODO Remove Comma after second to last author and ampersand
-% https://tex.stackexchange.com/questions/670888/biblatex-apa-7-modification
+% Remove Comma after second to last author and ampersand
 \makeatletter
 \renewcommand*{\apablx@ifrevnameappcomma}{\@secondoftwo}
 \makeatother
@@ -112,8 +113,16 @@
 \begin{document}
 
 \pagenumbering{Roman} % Uppercase Roman numerals
-% \pagenumbering{gobble} % switch off page numbering
 \include{pages/cover} % Cover page
+
+\newpage
+%% ++++++++++++++++++++++++++++++++++++++++++
+%% Abstract (Pflicht laut IU Richtlinien)
+%% ++++++++++++++++++++++++++++++++++++++++++
+\phantomsection
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+\lipsum[1] % TODO: Replace with your actual abstract
 
 \newpage
 %% ++++++++++++++++++++++++++++++++++++++++++
@@ -129,22 +138,20 @@
 \listoffigures % List of Figures
 
 
-
-% TODO: Check if needed
-%\blankpage
-%\listoftables % List of Tables
-%\addcontentsline{toc}{section}{List of Tables}
+% Tabellenverzeichnis aktiviert (Pflicht ab 3 Tabellen)
+\blankpage
+\phantomsection
+\addcontentsline{toc}{section}{List of Tables}
+\listoftables % List of Tables
 
 \blankpage
+\phantomsection
 \section*{Acronyms}
 \addcontentsline{toc}{section}{Acronyms}
 
-% TODO: Check acronyms!
 \begin{acronym}
-
 \acro{iu}[IU]{IU International University}
 \end{acronym}
-%\label{last-roman-page}% Save last page of this chapter
 
 %% ++++++++++++++++++++++++++++++++++++++++++
 %% Main Part
@@ -164,19 +171,9 @@
 % set bibliography name
 \renewcommand{\bibname}{References}
 \addcontentsline{toc}{section}{\bibname}
-% \nocite{*} % only include if also citing sources not referenced in the text
 
 \begin{flushleft}
-
 \printbibliography[title=\bibname]
 \end{flushleft}
 
-% %% ++++++++++++++++++++++++++++++++++++++++++
-% %% Appendix
-% %% ++++++++++++++++++++++++++++++++++++++++++
-% \blankpage
-% \appendix
-% \include{pages/appendix} % Appendix % TODO: Add Appendix?
-
 \end{document}
-
